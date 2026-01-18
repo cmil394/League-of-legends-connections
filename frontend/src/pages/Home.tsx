@@ -1,27 +1,38 @@
+import { useState } from "react";
 import styles from "./CSS/Home.module.css";
 
-function Home() {
+const Home = () => {
+  const [selected, setSelected] = useState<number[]>([]);
+
+  const toggleTile = (index: number) => {
+    if (selected.includes(index)) {
+      setSelected(selected.filter((i) => i !== index));
+      return;
+    }
+    if (selected.length < 4) {
+      setSelected([...selected, index]);
+    }
+  };
+
   return (
     <div className={styles.home}>
-      <div className={styles.homeCard}>
-        <h1 className={styles.title}>League of Legends Connections</h1>
+      <h1 className={styles.title}>League of Legends Connections</h1>
 
-        <p className={styles.subtitle}>
-          Test your knowledge by finding the hidden connections between
-          champions, items, regions, and lore.
-        </p>
-
-        <div className={styles.buttons}>
-          <button className={styles.primary}>Start Game</button>
-          <button className={styles.secondary}>How to Play</button>
-        </div>
-
-        <p className={styles.footer}>
-          Inspired by Connections • Powered by League lore
-        </p>
+      <div className={styles.grid}>
+        {Array.from({ length: 16 }).map((_, i) => (
+          <div
+            key={i}
+            className={`${styles.tile} ${
+              selected.includes(i) ? styles.selected : ""
+            }`}
+            onClick={() => toggleTile(i)}
+          >
+            Placeholder
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Home;

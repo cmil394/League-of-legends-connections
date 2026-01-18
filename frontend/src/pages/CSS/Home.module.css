@@ -1,7 +1,10 @@
 .home {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #0f172a, #000000);
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #1e293b, #020617 70%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
@@ -12,62 +15,44 @@
     sans-serif;
 }
 
-.homeCard {
-  max-width: 480px;
-  width: 100%;
-  padding: 32px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  text-align: center;
-}
-
 .title {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 700;
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
 }
 
-.subtitle {
-  margin-top: 16px;
-  color: #cbd5f5;
-  line-height: 1.5;
-}
-
-.buttons {
-  margin-top: 32px;
-  display: flex;
-  flex-direction: column;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 12px;
+  width: 520px;
+  height: 360px;
 }
 
-button {
-  padding: 14px;
-  font-size: 1rem;
-  border-radius: 8px;
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #cbd5f5;
   cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
-.primary {
-  background-color: #2563eb;
+.tile:hover {
+  transform: translateY(-2px);
+  background: #1e293b;
+}
+
+.selected {
+  background: #2563eb;
+  border-color: #3b82f6;
   color: white;
-  border: none;
-}
-
-.primary:hover {
-  background-color: #1d4ed8;
-}
-
-.secondary {
-  background: transparent;
-  color: white;
-  border: 1px solid #475569;
-}
-
-.secondary:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.footer {
-  margin-top: 24px;
-  font-size: 0.85rem;
-  color: #94a3b8;
 }
