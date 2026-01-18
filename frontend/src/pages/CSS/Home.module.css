@@ -56,3 +56,28 @@
   border-color: #3b82f6;
   color: white;
 }
+
+.guessButton {
+  margin-top: 24px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: white;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.guessButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.guessButton:not(:disabled):hover {
+  transform: translateY(-1px);
+  background-color: #1d4ed8;
+}

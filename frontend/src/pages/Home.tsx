@@ -9,9 +9,16 @@ const Home = () => {
       setSelected(selected.filter((i) => i !== index));
       return;
     }
+
     if (selected.length < 4) {
       setSelected([...selected, index]);
     }
+  };
+
+  const handleGuess = () => {
+    if (selected.length !== 4) return;
+
+    console.log("Guessed tiles:", selected);
   };
 
   return (
@@ -31,6 +38,14 @@ const Home = () => {
           </div>
         ))}
       </div>
+
+      <button
+        className={styles.guessButton}
+        disabled={selected.length !== 4}
+        onClick={handleGuess}
+      >
+        Guess
+      </button>
     </div>
   );
 };
