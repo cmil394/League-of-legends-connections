@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./CSS/Home.module.css";
+import connections from "../../../connections.json";
 
 const Home = () => {
+  const puzzle = connections[0];
   const [selected, setSelected] = useState<number[]>([]);
 
   const toggleTile = (index: number) => {
@@ -17,8 +19,19 @@ const Home = () => {
 
   const handleGuess = () => {
     if (selected.length !== 4) return;
+    const match = puzzle.solution.find(
+      (group) =>
+        group.indexes.every((idx) => selected.includes(idx)) &&
+        selected.every((idx) => group.indexes.includes(idx)),
+    );
 
-    console.log("Guessed tiles:", selected);
+    if (match) {
+      alert(`Correct! This group is: ${match.name}`);
+    } else {
+      alert("Wrong guess. Try again!");
+    }
+
+    setSelected([]);
   };
 
   return (
@@ -26,7 +39,7 @@ const Home = () => {
       <h1 className={styles.title}>League of Legends Connections</h1>
 
       <div className={styles.grid}>
-        {Array.from({ length: 16 }).map((_, i) => (
+        {puzzle.words.map((word, i) => (
           <div
             key={i}
             className={`${styles.tile} ${
@@ -34,7 +47,7 @@ const Home = () => {
             }`}
             onClick={() => toggleTile(i)}
           >
-            Placeholder
+            {word}
           </div>
         ))}
       </div>

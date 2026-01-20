@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2026-01-20",
+    "words": [
+      "Gwen",
+      "Irelia",
+      "Jax",
+      "Riven",
+      "Malzahar",
+      "Kaisa",
+      "Chogath",
+      "Belveth",
+      "Ekko",
+      "Vi",
+      "Diana",
+      "Vayne",
+      "Annie",
+      "Syndra",
+      "Ahri",
+      "Oriana"
+    ],
+    "solution": [
+      { "name": "Top Laners", "indexes": [0, 1, 2, 3] },
+      { "name": "Void Champions", "indexes": [4, 5, 6, 7] },
+      { "name": "3 Hit Passives", "indexes": [8, 9, 10, 11] },
+      { "name": "Mid Laners", "indexes": [12, 13, 14, 15] }
+    ]
+  }
+]
