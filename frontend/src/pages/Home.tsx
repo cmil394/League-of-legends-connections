@@ -4,6 +4,7 @@ import connections from "../../../connections.json";
 
 const Home = () => {
   const puzzle = connections[0];
+  const [words, setWords] = useState<string[]>([...puzzle.words]);
   const [selected, setSelected] = useState<number[]>([]);
 
   const toggleTile = (index: number) => {
@@ -19,10 +20,14 @@ const Home = () => {
 
   const handleGuess = () => {
     if (selected.length !== 4) return;
+    const selectedOriginalIndexes = selected.map((i) =>
+      puzzle.words.indexOf(words[i]),
+    );
+
     const match = puzzle.solution.find(
       (group) =>
-        group.indexes.every((idx) => selected.includes(idx)) &&
-        selected.every((idx) => group.indexes.includes(idx)),
+        group.indexes.every((idx) => selectedOriginalIndexes.includes(idx)) &&
+        selectedOriginalIndexes.every((idx) => group.indexes.includes(idx)),
     );
 
     if (match) {
@@ -34,12 +39,26 @@ const Home = () => {
     setSelected([]);
   };
 
+  const shuffleGrid = () => {
+    const shuffled = [...words];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setWords(shuffled);
+    setSelected([]);
+  };
+
   return (
     <div className={styles.home}>
       <h1 className={styles.title}>League of Legends Connections</h1>
 
+      <button className={styles.shuffleButton} onClick={shuffleGrid}>
+        Shuffle Grid
+      </button>
+
       <div className={styles.grid}>
-        {puzzle.words.map((word, i) => (
+        {words.map((word, i) => (
           <div
             key={i}
             className={`${styles.tile} ${
