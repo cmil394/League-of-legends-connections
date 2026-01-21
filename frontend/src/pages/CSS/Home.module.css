@@ -1,12 +1,10 @@
 .home {
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
   background: radial-gradient(circle at top, #1e293b, #020617 70%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding-top: 126px;
   color: white;
   font-family:
     system-ui,
@@ -15,17 +13,31 @@
     sans-serif;
 }
 
+.brand {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
 .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 32px;
-  letter-spacing: 0.5px;
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.timer {
+  font-size: 0.9rem;
+  color: #cbd5f5;
+  margin-bottom: 28px;
+  opacity: 0.9;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
   gap: 12px;
   width: 520px;
   height: 360px;
@@ -57,17 +69,24 @@
   color: white;
 }
 
+/* Buttons */
+.buttonRow {
+  margin-top: 28px;
+  display: flex;
+  gap: 16px;
+}
+
 .actionButton {
-  padding: 12px 38px;
+  padding: 12px 30px;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition:
-    opacity 0.15s ease,
     transform 0.15s ease,
-    background 0.15s ease;
+    background 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .actionButton:disabled {
@@ -95,11 +114,4 @@
 
 .submit:hover {
   background-color: #1d4ed8;
-}
-
-.buttonRow {
-  margin-top: 24px;
-  display: flex;
-  gap: 16px;
-  justify-content: center;
 }

@@ -12,26 +12,12 @@ const Home = () => {
       setSelected(selected.filter((i) => i !== index));
       return;
     }
-
-    if (selected.length < 4) {
-      setSelected([...selected, index]);
-    }
+    if (selected.length < 4) setSelected([...selected, index]);
   };
 
   const handleGuess = () => {
     if (selected.length !== 4) return;
-
-    const selectedOriginalIndexes = selected.map((i) =>
-      puzzle.words.indexOf(words[i]),
-    );
-
-    const match = puzzle.solution.find(
-      (group) =>
-        group.indexes.every((idx) => selectedOriginalIndexes.includes(idx)) &&
-        selectedOriginalIndexes.every((idx) => group.indexes.includes(idx)),
-    );
-
-    alert(match ? `Correct! ${match.name}` : "Wrong guess. Try again!");
+    alert("Guess submitted");
     setSelected([]);
   };
 
@@ -47,7 +33,10 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <h1 className={styles.title}>League of Legends Connections</h1>
+      <h1 className={styles.brand}>League of Legends</h1>
+      <h2 className={styles.title}>Connections</h2>
+
+      <div className={styles.timer}>Next game: 00:20</div>
 
       <div className={styles.grid}>
         {words.map((word, i) => (
