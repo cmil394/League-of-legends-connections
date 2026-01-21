@@ -57,27 +57,49 @@
   color: white;
 }
 
-.guessButton {
-  margin-top: 24px;
-  padding: 12px 28px;
+.actionButton {
+  padding: 12px 38px;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background-color: #2563eb;
-  color: white;
   transition:
     opacity 0.15s ease,
-    transform 0.15s ease;
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
-.guessButton:disabled {
+.actionButton:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.guessButton:not(:disabled):hover {
+.actionButton:not(:disabled):hover {
   transform: translateY(-1px);
+}
+
+.shuffle {
+  background-color: #475569;
+  color: white;
+}
+
+.shuffle:hover {
+  background-color: #334155;
+}
+
+.submit {
+  background-color: #2563eb;
+  color: white;
+}
+
+.submit:hover {
   background-color: #1d4ed8;
+}
+
+.buttonRow {
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
 }

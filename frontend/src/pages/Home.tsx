@@ -20,6 +20,7 @@ const Home = () => {
 
   const handleGuess = () => {
     if (selected.length !== 4) return;
+
     const selectedOriginalIndexes = selected.map((i) =>
       puzzle.words.indexOf(words[i]),
     );
@@ -30,12 +31,7 @@ const Home = () => {
         selectedOriginalIndexes.every((idx) => group.indexes.includes(idx)),
     );
 
-    if (match) {
-      alert(`Correct! This group is: ${match.name}`);
-    } else {
-      alert("Wrong guess. Try again!");
-    }
-
+    alert(match ? `Correct! ${match.name}` : "Wrong guess. Try again!");
     setSelected([]);
   };
 
@@ -53,10 +49,6 @@ const Home = () => {
     <div className={styles.home}>
       <h1 className={styles.title}>League of Legends Connections</h1>
 
-      <button className={styles.shuffleButton} onClick={shuffleGrid}>
-        Shuffle Grid
-      </button>
-
       <div className={styles.grid}>
         {words.map((word, i) => (
           <div
@@ -71,13 +63,22 @@ const Home = () => {
         ))}
       </div>
 
-      <button
-        className={styles.guessButton}
-        disabled={selected.length !== 4}
-        onClick={handleGuess}
-      >
-        Guess
-      </button>
+      <div className={styles.buttonRow}>
+        <button
+          className={`${styles.actionButton} ${styles.shuffle}`}
+          onClick={shuffleGrid}
+        >
+          Shuffle
+        </button>
+
+        <button
+          className={`${styles.actionButton} ${styles.submit}`}
+          disabled={selected.length !== 4}
+          onClick={handleGuess}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
