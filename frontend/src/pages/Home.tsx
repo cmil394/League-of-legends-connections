@@ -41,8 +41,20 @@ const Home = () => {
 
   const handleGuess = () => {
     if (selected.length !== 4) return;
-    alert("Guess submitted");
-    setSelected([]);
+
+    const correctGroup = puzzle.solution.find(
+      (group) =>
+        group.indexes.every((index) => selected.includes(index)) &&
+        selected.every((index) => group.indexes.includes(index)),
+    );
+
+    if (correctGroup) {
+      alert(`Correct! You found: ${correctGroup.name}`);
+      setSelected([]);
+    } else {
+      alert("Incorrect guess. Try again!");
+      setSelected([]);
+    }
   };
 
   const shuffleGrid = () => {
