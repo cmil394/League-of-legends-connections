@@ -22,7 +22,9 @@ const MAX_LIVES = 5;
 /* Component */
 
 const Home = () => {
-  const puzzle: Puzzle = connections[0];
+  const todayStr = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+  const puzzle: Puzzle | undefined =
+    connections.find((p) => p.date === todayStr) || connections[0]; // fallback to first puzzle
 
   const STORAGE_SOLVED = `connections-${puzzle.date}-solved`;
   const STORAGE_WON = `connections-${puzzle.date}-won`;
