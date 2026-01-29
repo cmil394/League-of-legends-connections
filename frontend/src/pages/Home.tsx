@@ -4,10 +4,13 @@ import connections from "../../../connections.json";
 
 const Home = () => {
   const puzzle = connections[0];
+
   const [words, setWords] = useState<string[]>([...puzzle.words]);
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [solvedGroups, setSolvedGroups] = useState<string[][]>([]);
   const [timeLeft, setTimeLeft] = useState<string>("");
 
+  /* ================= TIMER ================= */
   useEffect(() => {
     const updateTimer = () => {
       const now = new Date();
@@ -31,32 +34,37 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const toggleTile = (index: number) => {
-    if (selected.includes(index)) {
-      setSelected(selected.filter((i) => i !== index));
+  /* ================= TILE LOGIC ================= */
+  const toggleTile = (word: string) => {
+    if (selected.includes(word)) {
+      setSelected(selected.filter((w) => w !== word));
       return;
     }
-    if (selected.length < 4) setSelected([...selected, index]);
+
+    if (selected.length < 4) {
+      setSelected([...selected, word]);
+    }
   };
 
+  /* ================= GUESS LOGIC ================= */
   const handleGuess = () => {
     if (selected.length !== 4) return;
 
-    const correctGroup = puzzle.solution.find(
-      (group) =>
-        group.indexes.every((index) => selected.includes(index)) &&
-        selected.every((index) => group.indexes.includes(index)),
+    const correctGroup = puzzle.groups.find((group) =>
+      group.words.every((word) => selected.includes(word)),
     );
 
     if (correctGroup) {
       alert(`Correct! You found: ${correctGroup.name}`);
-      setSelected([]);
+      setSolvedGroups([...solvedGroups, correctGroup.words]);
     } else {
       alert("Incorrect guess. Try again!");
-      setSelected([]);
     }
+
+    setSelected([]);
   };
 
+  /* ================= SHUFFLE ================= */
   const shuffleGrid = () => {
     const shuffled = [...words];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -67,6 +75,9 @@ const Home = () => {
     setSelected([]);
   };
 
+  const isSolved = (word: string) => solvedGroups.flat().includes(word);
+
+  /* ================= RENDER ================= */
   return (
     <div className={styles.home}>
       <h1 className={styles.brand}>League of Legends</h1>
@@ -75,13 +86,13 @@ const Home = () => {
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
       <div className={styles.grid}>
-        {words.map((word, i) => (
+        {words.map((word) => (
           <div
-            key={i}
+            key={word}
             className={`${styles.tile} ${
-              selected.includes(i) ? styles.selected : ""
-            }`}
-            onClick={() => toggleTile(i)}
+              selected.includes(word) ? styles.selected : ""
+            } ${isSolved(word) ? styles.solved : ""}`}
+            onClick={() => !isSolved(word) && toggleTile(word)}
           >
             {word}
           </div>

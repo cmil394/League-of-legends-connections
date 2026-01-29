@@ -19,11 +19,23 @@
       "Ahri",
       "Oriana"
     ],
-    "solution": [
-      { "name": "Top Laners", "indexes": [0, 1, 2, 3] },
-      { "name": "Void Champions", "indexes": [4, 5, 6, 7] },
-      { "name": "3 Hit Passives", "indexes": [8, 9, 10, 11] },
-      { "name": "Mid Laners", "indexes": [12, 13, 14, 15] }
+    "groups": [
+      {
+        "name": "Top Laners",
+        "words": ["Gwen", "Irelia", "Jax", "Riven"]
+      },
+      {
+        "name": "Void Champions",
+        "words": ["Malzahar", "Kaisa", "Chogath", "Belveth"]
+      },
+      {
+        "name": "3 Hit Passives",
+        "words": ["Ekko", "Vi", "Diana", "Vayne"]
+      },
+      {
+        "name": "Mid Laners",
+        "words": ["Annie", "Syndra", "Ahri", "Oriana"]
+      }
     ]
   }
 ]
