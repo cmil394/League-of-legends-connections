@@ -20,21 +20,39 @@ type Puzzle = {
 const Home = () => {
   const puzzle: Puzzle = connections[0];
 
-  const [words, setWords] = useState<string[]>([...puzzle.words]);
+  const STORAGE_KEY_SOLVED = `connections-${puzzle.date}-solved`;
+  const STORAGE_KEY_WON = `connections-${puzzle.date}-won`;
+
+  const [words, setWords] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [solvedGroups, setSolvedGroups] = useState<Group[]>([]);
   const [timeLeft, setTimeLeft] = useState("");
   const [hasWon, setHasWon] = useState(false);
   const [showWinModal, setShowWinModal] = useState(false);
 
-  /* ================= LOAD WIN STATE ================= */
+  /* ================= LOAD SAVED STATE ================= */
   useEffect(() => {
-    const storedWin = localStorage.getItem("connectionsWon");
-    if (storedWin === "true") {
+    const savedSolved = JSON.parse(
+      localStorage.getItem(STORAGE_KEY_SOLVED) || "[]",
+    ) as string[];
+
+    const solved = puzzle.groups.filter((group) =>
+      savedSolved.includes(group.name),
+    );
+
+    setSolvedGroups(solved);
+
+    const remainingWords = puzzle.words.filter(
+      (word) => !solved.some((g) => g.words.includes(word)),
+    );
+
+    setWords(remainingWords);
+
+    if (localStorage.getItem(STORAGE_KEY_WON) === "true") {
       setHasWon(true);
       setShowWinModal(true);
     }
-  }, []);
+  }, [puzzle, STORAGE_KEY_SOLVED, STORAGE_KEY_WON]);
 
   /* ================= TIMER ================= */
   useEffect(() => {
@@ -44,14 +62,14 @@ const Home = () => {
       midnight.setHours(24, 0, 0, 0);
 
       const diff = midnight.getTime() - now.getTime();
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
 
       setTimeLeft(
-        `${hours.toString().padStart(2, "0")}:${minutes
+        `${h.toString().padStart(2, "0")}:${m
           .toString()
-          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`,
+          .padStart(2, "0")}:${s.toString().padStart(2, "0")}`,
       );
     };
 
@@ -82,18 +100,28 @@ const Home = () => {
       group.words.every((word) => selected.includes(word)),
     );
 
-    if (correctGroup) {
-      setSolvedGroups((prev) => [...prev, correctGroup]);
+    if (!correctGroup) {
+      setSelected([]);
+      return;
+    }
 
-      setWords((prev) =>
-        prev.filter((word) => !correctGroup.words.includes(word)),
-      );
+    const newSolved = [...solvedGroups, correctGroup];
+    setSolvedGroups(newSolved);
 
-      if (solvedGroups.length + 1 === puzzle.groups.length) {
-        setHasWon(true);
-        setShowWinModal(true);
-        localStorage.setItem("connectionsWon", "true");
-      }
+    // persist solved categories
+    localStorage.setItem(
+      STORAGE_KEY_SOLVED,
+      JSON.stringify(newSolved.map((g) => g.name)),
+    );
+
+    setWords((prev) =>
+      prev.filter((word) => !correctGroup.words.includes(word)),
+    );
+
+    if (newSolved.length === puzzle.groups.length) {
+      setHasWon(true);
+      setShowWinModal(true);
+      localStorage.setItem(STORAGE_KEY_WON, "true");
     }
 
     setSelected([]);
@@ -121,9 +149,8 @@ const Home = () => {
 
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
-      {/* ===== FIXED BOARD ===== */}
       <div className={styles.board}>
-        {/* ===== SOLVED GROUPS ===== */}
+        {/* ===== SOLVED ROWS ===== */}
         <div className={styles.solvedContainer}>
           {solvedGroups.map((group) => (
             <div key={group.name} className={styles.solvedRow}>
@@ -149,7 +176,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ===== BUTTONS ===== */}
       <div className={styles.buttonRow}>
         <button
           className={`${styles.actionButton} ${styles.shuffle}`}
@@ -168,7 +194,6 @@ const Home = () => {
         </button>
       </div>
 
-      {/* ===== WIN MODAL ===== */}
       {showWinModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
