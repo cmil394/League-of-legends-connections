@@ -139,6 +139,20 @@
   text-align: center;
 }
 
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.retry {
+  background-color: #334155;
+}
+
+.retry:hover {
+  background-color: #475569;
+}
+
 .lives {
   margin-bottom: 16px;
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./CSS/Home.module.css";
 import connections from "../../../connections.json";
 
-/* ================= TYPES ================= */
+/* Types */
 
 type Group = {
   name: string;
@@ -15,11 +15,11 @@ type Puzzle = {
   groups: Group[];
 };
 
-/* ================= CONSTANTS ================= */
+/* Constants */
 
 const MAX_LIVES = 5;
 
-/* ================= COMPONENT ================= */
+/* Component */
 
 const Home = () => {
   const puzzle: Puzzle = connections[0];
@@ -38,7 +38,25 @@ const Home = () => {
   const [hasLost, setHasLost] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  /* ================= LOAD SAVED STATE ================= */
+  /* Reset puzzle */
+  const resetPuzzle = () => {
+    // clear storage for today
+    localStorage.removeItem(STORAGE_SOLVED);
+    localStorage.removeItem(STORAGE_WON);
+    localStorage.removeItem(STORAGE_LOST);
+    localStorage.removeItem(STORAGE_LIVES);
+
+    // reset state
+    setSolvedGroups([]);
+    setWords([...puzzle.words]);
+    setSelected([]);
+    setLives(MAX_LIVES);
+    setHasWon(false);
+    setHasLost(false);
+    setShowModal(false);
+  };
+
+  /* Load saved state */
   useEffect(() => {
     const savedSolved = JSON.parse(
       localStorage.getItem(STORAGE_SOLVED) || "[]",
@@ -72,7 +90,7 @@ const Home = () => {
     }
   }, [puzzle]);
 
-  /* ================= TIMER ================= */
+  /* Timer */
   useEffect(() => {
     const updateTimer = () => {
       const now = new Date();
@@ -96,7 +114,7 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  /* ================= TILE LOGIC ================= */
+  /* Tile logic */
   const toggleTile = (word: string) => {
     if (hasWon || hasLost) return;
 
@@ -110,7 +128,7 @@ const Home = () => {
     }
   };
 
-  /* ================= GUESS LOGIC ================= */
+  /* Guess logic */
   const handleGuess = () => {
     if (selected.length !== 4 || hasWon || hasLost) return;
 
@@ -158,7 +176,7 @@ const Home = () => {
     setSelected([]);
   };
 
-  /* ================= SHUFFLE ================= */
+  /* Shuffle grid */
   const shuffleGrid = () => {
     if (hasWon || hasLost) return;
 
@@ -172,7 +190,7 @@ const Home = () => {
     setSelected([]);
   };
 
-  /* ================= RENDER ================= */
+  /* Render */
   return (
     <div className={styles.home}>
       <h1 className={styles.brand}>League of Legends</h1>
@@ -180,7 +198,7 @@ const Home = () => {
 
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
-      {/* ===== LIVES ===== */}
+      {/* Lives */}
       <div className={styles.lives}>
         {Array.from({ length: MAX_LIVES }).map((_, i) => (
           <span
@@ -237,7 +255,7 @@ const Home = () => {
         </button>
       </div>
 
-      {/* ===== RESULT MODAL ===== */}
+      {/* Result Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -247,12 +265,21 @@ const Home = () => {
                 ? "You solved all four connections."
                 : "You ran out of lives."}
             </p>
-            <button
-              className={styles.modalButton}
-              onClick={() => setShowModal(false)}
-            >
-              View Board
-            </button>
+            <div className={styles.modalButtons}>
+              <button
+                className={styles.modalButton}
+                onClick={() => setShowModal(false)}
+              >
+                View Board
+              </button>
+
+              <button
+                className={`${styles.modalButton} ${styles.retry}`}
+                onClick={resetPuzzle}
+              >
+                Retry Today
+              </button>
+            </div>
           </div>
         </div>
       )}
