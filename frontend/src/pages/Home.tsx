@@ -9,6 +9,17 @@ const Home = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const [solvedGroups, setSolvedGroups] = useState<string[][]>([]);
   const [timeLeft, setTimeLeft] = useState<string>("");
+  const [hasWon, setHasWon] = useState<boolean>(false);
+  const [showWinModal, setShowWinModal] = useState<boolean>(false);
+
+  /* ================= LOAD WIN STATE ================= */
+  useEffect(() => {
+    const storedWin = localStorage.getItem("connectionsWon");
+    if (storedWin === "true") {
+      setHasWon(true);
+      setShowWinModal(true);
+    }
+  }, []);
 
   /* ================= TIMER ================= */
   useEffect(() => {
@@ -36,6 +47,8 @@ const Home = () => {
 
   /* ================= TILE LOGIC ================= */
   const toggleTile = (word: string) => {
+    if (hasWon) return;
+
     if (selected.includes(word)) {
       setSelected(selected.filter((w) => w !== word));
       return;
@@ -48,17 +61,22 @@ const Home = () => {
 
   /* ================= GUESS LOGIC ================= */
   const handleGuess = () => {
-    if (selected.length !== 4) return;
+    if (selected.length !== 4 || hasWon) return;
 
     const correctGroup = puzzle.groups.find((group) =>
       group.words.every((word) => selected.includes(word)),
     );
 
     if (correctGroup) {
-      alert(`Correct! You found: ${correctGroup.name}`);
-      setSolvedGroups([...solvedGroups, correctGroup.words]);
-    } else {
-      alert("Incorrect guess. Try again!");
+      const newSolved = [...solvedGroups, correctGroup.words];
+      setSolvedGroups(newSolved);
+
+      // ✅ Check win condition
+      if (newSolved.length === puzzle.groups.length) {
+        setHasWon(true);
+        setShowWinModal(true);
+        localStorage.setItem("connectionsWon", "true");
+      }
     }
 
     setSelected([]);
@@ -66,6 +84,8 @@ const Home = () => {
 
   /* ================= SHUFFLE ================= */
   const shuffleGrid = () => {
+    if (hasWon) return;
+
     const shuffled = [...words];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -103,18 +123,35 @@ const Home = () => {
         <button
           className={`${styles.actionButton} ${styles.shuffle}`}
           onClick={shuffleGrid}
+          disabled={hasWon}
         >
           Shuffle
         </button>
 
         <button
           className={`${styles.actionButton} ${styles.submit}`}
-          disabled={selected.length !== 4}
+          disabled={selected.length !== 4 || hasWon}
           onClick={handleGuess}
         >
           Submit
         </button>
       </div>
+
+      {/* ================= WIN MODAL ================= */}
+      {showWinModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2>You Won! 🎉</h2>
+            <p>You solved all four connections.</p>
+            <button
+              className={styles.modalButton}
+              onClick={() => setShowWinModal(false)}
+            >
+              View Board
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
