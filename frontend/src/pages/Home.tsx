@@ -15,25 +15,33 @@ type Puzzle = {
   groups: Group[];
 };
 
+/* ================= CONSTANTS ================= */
+
+const MAX_LIVES = 5;
+
 /* ================= COMPONENT ================= */
 
 const Home = () => {
   const puzzle: Puzzle = connections[0];
 
-  const STORAGE_KEY_SOLVED = `connections-${puzzle.date}-solved`;
-  const STORAGE_KEY_WON = `connections-${puzzle.date}-won`;
+  const STORAGE_SOLVED = `connections-${puzzle.date}-solved`;
+  const STORAGE_WON = `connections-${puzzle.date}-won`;
+  const STORAGE_LIVES = `connections-${puzzle.date}-lives`;
+  const STORAGE_LOST = `connections-${puzzle.date}-lost`;
 
   const [words, setWords] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [solvedGroups, setSolvedGroups] = useState<Group[]>([]);
+  const [lives, setLives] = useState<number>(MAX_LIVES);
   const [timeLeft, setTimeLeft] = useState("");
   const [hasWon, setHasWon] = useState(false);
-  const [showWinModal, setShowWinModal] = useState(false);
+  const [hasLost, setHasLost] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   /* ================= LOAD SAVED STATE ================= */
   useEffect(() => {
     const savedSolved = JSON.parse(
-      localStorage.getItem(STORAGE_KEY_SOLVED) || "[]",
+      localStorage.getItem(STORAGE_SOLVED) || "[]",
     ) as string[];
 
     const solved = puzzle.groups.filter((group) =>
@@ -48,11 +56,21 @@ const Home = () => {
 
     setWords(remainingWords);
 
-    if (localStorage.getItem(STORAGE_KEY_WON) === "true") {
+    const savedLives = localStorage.getItem(STORAGE_LIVES);
+    setLives(savedLives ? Number(savedLives) : MAX_LIVES);
+
+    if (localStorage.getItem(STORAGE_WON) === "true") {
       setHasWon(true);
-      setShowWinModal(true);
+      setShowModal(true);
     }
-  }, [puzzle, STORAGE_KEY_SOLVED, STORAGE_KEY_WON]);
+
+    if (localStorage.getItem(STORAGE_LOST) === "true") {
+      setHasLost(true);
+      setShowModal(true);
+      setSolvedGroups(puzzle.groups);
+      setWords([]);
+    }
+  }, [puzzle]);
 
   /* ================= TIMER ================= */
   useEffect(() => {
@@ -80,7 +98,7 @@ const Home = () => {
 
   /* ================= TILE LOGIC ================= */
   const toggleTile = (word: string) => {
-    if (hasWon) return;
+    if (hasWon || hasLost) return;
 
     if (selected.includes(word)) {
       setSelected((prev) => prev.filter((w) => w !== word));
@@ -94,23 +112,36 @@ const Home = () => {
 
   /* ================= GUESS LOGIC ================= */
   const handleGuess = () => {
-    if (selected.length !== 4 || hasWon) return;
+    if (selected.length !== 4 || hasWon || hasLost) return;
 
     const correctGroup = puzzle.groups.find((group) =>
       group.words.every((word) => selected.includes(word)),
     );
 
     if (!correctGroup) {
+      const newLives = lives - 1;
+      setLives(newLives);
+      localStorage.setItem(STORAGE_LIVES, String(newLives));
       setSelected([]);
+
+      if (newLives === 0) {
+        setHasLost(true);
+        setShowModal(true);
+        localStorage.setItem(STORAGE_LOST, "true");
+
+        // reveal all
+        setSolvedGroups(puzzle.groups);
+        setWords([]);
+      }
+
       return;
     }
 
     const newSolved = [...solvedGroups, correctGroup];
     setSolvedGroups(newSolved);
 
-    // persist solved categories
     localStorage.setItem(
-      STORAGE_KEY_SOLVED,
+      STORAGE_SOLVED,
       JSON.stringify(newSolved.map((g) => g.name)),
     );
 
@@ -120,8 +151,8 @@ const Home = () => {
 
     if (newSolved.length === puzzle.groups.length) {
       setHasWon(true);
-      setShowWinModal(true);
-      localStorage.setItem(STORAGE_KEY_WON, "true");
+      setShowModal(true);
+      localStorage.setItem(STORAGE_WON, "true");
     }
 
     setSelected([]);
@@ -129,7 +160,7 @@ const Home = () => {
 
   /* ================= SHUFFLE ================= */
   const shuffleGrid = () => {
-    if (hasWon) return;
+    if (hasWon || hasLost) return;
 
     const shuffled = [...words];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -149,8 +180,21 @@ const Home = () => {
 
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
+      {/* ===== LIVES ===== */}
+      <div className={styles.lives}>
+        {Array.from({ length: MAX_LIVES }).map((_, i) => (
+          <span
+            key={i}
+            className={`${styles.heart} ${
+              i < lives ? styles.full : styles.empty
+            }`}
+          >
+            ♥
+          </span>
+        ))}
+      </div>
+
       <div className={styles.board}>
-        {/* ===== SOLVED ROWS ===== */}
         <div className={styles.solvedContainer}>
           {solvedGroups.map((group) => (
             <div key={group.name} className={styles.solvedRow}>
@@ -160,7 +204,6 @@ const Home = () => {
           ))}
         </div>
 
-        {/* ===== GRID ===== */}
         <div className={styles.grid}>
           {words.map((word) => (
             <div
@@ -180,7 +223,7 @@ const Home = () => {
         <button
           className={`${styles.actionButton} ${styles.shuffle}`}
           onClick={shuffleGrid}
-          disabled={hasWon}
+          disabled={hasWon || hasLost}
         >
           Shuffle
         </button>
@@ -188,20 +231,25 @@ const Home = () => {
         <button
           className={`${styles.actionButton} ${styles.submit}`}
           onClick={handleGuess}
-          disabled={selected.length !== 4 || hasWon}
+          disabled={selected.length !== 4 || hasWon || hasLost}
         >
           Submit
         </button>
       </div>
 
-      {showWinModal && (
+      {/* ===== RESULT MODAL ===== */}
+      {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <h2>You Won! 🎉</h2>
-            <p>You solved all four connections.</p>
+            <h2>{hasWon ? "You Won! 🎉" : "You Lost 💀"}</h2>
+            <p>
+              {hasWon
+                ? "You solved all four connections."
+                : "You ran out of lives."}
+            </p>
             <button
               className={styles.modalButton}
-              onClick={() => setShowWinModal(false)}
+              onClick={() => setShowModal(false)}
             >
               View Board
             </button>

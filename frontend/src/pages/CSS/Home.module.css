@@ -138,3 +138,20 @@
   border-radius: 12px;
   text-align: center;
 }
+
+.lives {
+  margin-bottom: 16px;
+}
+
+.heart {
+  font-size: 1.4rem;
+  margin: 0 4px;
+}
+
+.full {
+  color: #ef4444;
+}
+
+.empty {
+  color: #475569;
+}
