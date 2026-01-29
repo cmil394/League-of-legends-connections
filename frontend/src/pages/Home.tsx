@@ -2,15 +2,30 @@ import { useState, useEffect } from "react";
 import styles from "./CSS/Home.module.css";
 import connections from "../../../connections.json";
 
+/* ================= TYPES ================= */
+
+type Group = {
+  name: string;
+  words: string[];
+};
+
+type Puzzle = {
+  date: string;
+  words: string[];
+  groups: Group[];
+};
+
+/* ================= COMPONENT ================= */
+
 const Home = () => {
-  const puzzle = connections[0];
+  const puzzle: Puzzle = connections[0];
 
   const [words, setWords] = useState<string[]>([...puzzle.words]);
   const [selected, setSelected] = useState<string[]>([]);
-  const [solvedGroups, setSolvedGroups] = useState<string[][]>([]);
-  const [timeLeft, setTimeLeft] = useState<string>("");
-  const [hasWon, setHasWon] = useState<boolean>(false);
-  const [showWinModal, setShowWinModal] = useState<boolean>(false);
+  const [solvedGroups, setSolvedGroups] = useState<Group[]>([]);
+  const [timeLeft, setTimeLeft] = useState("");
+  const [hasWon, setHasWon] = useState(false);
+  const [showWinModal, setShowWinModal] = useState(false);
 
   /* ================= LOAD WIN STATE ================= */
   useEffect(() => {
@@ -50,12 +65,12 @@ const Home = () => {
     if (hasWon) return;
 
     if (selected.includes(word)) {
-      setSelected(selected.filter((w) => w !== word));
+      setSelected((prev) => prev.filter((w) => w !== word));
       return;
     }
 
     if (selected.length < 4) {
-      setSelected([...selected, word]);
+      setSelected((prev) => [...prev, word]);
     }
   };
 
@@ -68,11 +83,13 @@ const Home = () => {
     );
 
     if (correctGroup) {
-      const newSolved = [...solvedGroups, correctGroup.words];
-      setSolvedGroups(newSolved);
+      setSolvedGroups((prev) => [...prev, correctGroup]);
 
-      // ✅ Check win condition
-      if (newSolved.length === puzzle.groups.length) {
+      setWords((prev) =>
+        prev.filter((word) => !correctGroup.words.includes(word)),
+      );
+
+      if (solvedGroups.length + 1 === puzzle.groups.length) {
         setHasWon(true);
         setShowWinModal(true);
         localStorage.setItem("connectionsWon", "true");
@@ -91,11 +108,10 @@ const Home = () => {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+
     setWords(shuffled);
     setSelected([]);
   };
-
-  const isSolved = (word: string) => solvedGroups.flat().includes(word);
 
   /* ================= RENDER ================= */
   return (
@@ -105,20 +121,35 @@ const Home = () => {
 
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
-      <div className={styles.grid}>
-        {words.map((word) => (
-          <div
-            key={word}
-            className={`${styles.tile} ${
-              selected.includes(word) ? styles.selected : ""
-            } ${isSolved(word) ? styles.solved : ""}`}
-            onClick={() => !isSolved(word) && toggleTile(word)}
-          >
-            {word}
-          </div>
-        ))}
+      {/* ===== FIXED BOARD ===== */}
+      <div className={styles.board}>
+        {/* ===== SOLVED GROUPS ===== */}
+        <div className={styles.solvedContainer}>
+          {solvedGroups.map((group) => (
+            <div key={group.name} className={styles.solvedRow}>
+              <span className={styles.category}>{group.name}</span>
+              <span className={styles.words}>{group.words.join(" • ")}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* ===== GRID ===== */}
+        <div className={styles.grid}>
+          {words.map((word) => (
+            <div
+              key={word}
+              className={`${styles.tile} ${
+                selected.includes(word) ? styles.selected : ""
+              }`}
+              onClick={() => toggleTile(word)}
+            >
+              {word}
+            </div>
+          ))}
+        </div>
       </div>
 
+      {/* ===== BUTTONS ===== */}
       <div className={styles.buttonRow}>
         <button
           className={`${styles.actionButton} ${styles.shuffle}`}
@@ -130,14 +161,14 @@ const Home = () => {
 
         <button
           className={`${styles.actionButton} ${styles.submit}`}
-          disabled={selected.length !== 4 || hasWon}
           onClick={handleGuess}
+          disabled={selected.length !== 4 || hasWon}
         >
           Submit
         </button>
       </div>
 
-      {/* ================= WIN MODAL ================= */}
+      {/* ===== WIN MODAL ===== */}
       {showWinModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>

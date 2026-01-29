@@ -6,16 +6,11 @@
   align-items: center;
   padding-top: 126px;
   color: white;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 .brand {
   font-size: 1.1rem;
-  font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #94a3b8;
@@ -24,43 +19,71 @@
 .title {
   font-size: 2.6rem;
   font-weight: 800;
-  margin-top: 6px;
   margin-bottom: 12px;
 }
 
 .timer {
   font-size: 0.9rem;
   color: #cbd5f5;
-  margin-bottom: 28px;
-  opacity: 0.9;
+  margin-bottom: 24px;
+}
+.board {
+  width: 520px;
+  height: 360px;
+  --row-height: calc((360px - (3 * 12px)) / 4);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.solvedContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.solvedRow {
+  height: var(--row-height);
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.words {
+  opacity: 0.85;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: var(--row-height);
   gap: 12px;
-  width: 520px;
-  height: 360px;
+  flex: 1;
 }
 
 .tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: linear-gradient(145deg, #0f172a, #020617);
   border: 1px solid #334155;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.9rem;
-  color: #cbd5f5;
   cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    background 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .tile:hover {
   transform: translateY(-2px);
-  background: #1e293b;
 }
 
 .selected {
@@ -69,7 +92,6 @@
   color: white;
 }
 
-/* Buttons */
 .buttonRow {
   margin-top: 28px;
   display: flex;
@@ -83,10 +105,6 @@
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    background 0.15s ease,
-    opacity 0.15s ease;
 }
 
 .actionButton:disabled {
@@ -94,26 +112,14 @@
   cursor: not-allowed;
 }
 
-.actionButton:not(:disabled):hover {
-  transform: translateY(-1px);
-}
-
 .shuffle {
-  background-color: #475569;
+  background: #475569;
   color: white;
-}
-
-.shuffle:hover {
-  background-color: #334155;
 }
 
 .submit {
-  background-color: #2563eb;
+  background: #2563eb;
   color: white;
-}
-
-.submit:hover {
-  background-color: #1d4ed8;
 }
 
 .modalOverlay {
@@ -123,18 +129,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
 }
 
 .modal {
   background: white;
+  color: black;
   padding: 2rem;
   border-radius: 12px;
   text-align: center;
-  max-width: 400px;
-  color: black;
-}
-
-.modalButton {
-  margin-top: 1rem;
 }
