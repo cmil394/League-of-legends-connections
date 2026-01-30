@@ -1,6 +1,10 @@
 .home {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #1e293b, #020617 70%);
+  background-image: url("../../assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,17 +13,39 @@
   font-family: system-ui, sans-serif;
 }
 
+@font-face {
+  font-family: "MyFont";
+  src: url("../../assets/League.otf") format("truetype");
+}
+
+.titleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 26px 40px;
+  background: linear-gradient(135deg, #1f1f2e, #151521);
+  border-radius: 20px;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  margin-bottom: 18px;
+}
+
 .brand {
-  font-size: 1.1rem;
-  letter-spacing: 1.5px;
+  margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
-  color: #94a3b8;
+  font-family: "MyFont", sans-serif;
+  color: #b8b8ff;
 }
 
 .title {
-  font-size: 2.6rem;
+  margin: 0;
+  font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 12px;
+  color: white;
 }
 
 .timer {

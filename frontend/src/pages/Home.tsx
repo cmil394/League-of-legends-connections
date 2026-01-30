@@ -195,8 +195,10 @@ const Home = () => {
   /* Render */
   return (
     <div className={styles.home}>
-      <h1 className={styles.brand}>League of Legends</h1>
-      <h2 className={styles.title}>Connections</h2>
+      <div className={styles.titleCard}>
+        <h1 className={styles.brand}>League of Legends</h1>
+        <h2 className={styles.title}>Connections</h2>
+      </div>
 
       <div className={styles.timer}>Next game: {timeLeft}</div>
 
