@@ -8,6 +8,7 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  /* font-family: "MyFont", sans-serif; */
 }
 
 .home {
@@ -23,6 +24,7 @@ body {
   padding-top: 126px;
   color: white;
   font-family: system-ui, sans-serif;
+  /* font-family: "MyFont", sans-serif; */
 }
 
 .titleCard {
@@ -198,7 +200,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5px;
+  margin-top: 12px;
 }
 
 .livesLabel {

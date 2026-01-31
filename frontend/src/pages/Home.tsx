@@ -17,7 +17,7 @@ type Puzzle = {
 
 /* Constants */
 
-const MAX_LIVES = 5;
+const MAX_LIVES = 3;
 
 /* Component */
 
