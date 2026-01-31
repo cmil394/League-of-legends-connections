@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "MyFont";
+  src: url("../../assets/League.otf") format("truetype");
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .home {
   min-height: 100vh;
   background-image: url("../../assets/background.jpg");
@@ -11,11 +23,6 @@
   padding-top: 126px;
   color: white;
   font-family: system-ui, sans-serif;
-}
-
-@font-face {
-  font-family: "MyFont";
-  src: url("../../assets/League.otf") format("truetype");
 }
 
 .titleCard {
