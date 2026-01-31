@@ -200,63 +200,66 @@ const Home = () => {
         <h2 className={styles.title}>Connections</h2>
       </div>
 
-      <div className={styles.timer}>Next game: {timeLeft}</div>
+      <div className={styles.statusCard}>
+        <div className={styles.timer}>Next game: {timeLeft}</div>
 
-      {/* Lives */}
-      <div className={styles.lives}>
-        {Array.from({ length: MAX_LIVES }).map((_, i) => (
-          <span
-            key={i}
-            className={`${styles.heart} ${
-              i < lives ? styles.full : styles.empty
-            }`}
-          >
-            ♥
-          </span>
-        ))}
-      </div>
-
-      <div className={styles.board}>
-        <div className={styles.solvedContainer}>
-          {solvedGroups.map((group) => (
-            <div key={group.name} className={styles.solvedRow}>
-              <span className={styles.category}>{group.name}</span>
-              <span className={styles.words}>{group.words.join(" • ")}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className={styles.grid}>
-          {words.map((word) => (
-            <div
-              key={word}
-              className={`${styles.tile} ${
-                selected.includes(word) ? styles.selected : ""
+        <div className={styles.lives}>
+          {Array.from({ length: MAX_LIVES }).map((_, i) => (
+            <span
+              key={i}
+              className={`${styles.heart} ${
+                i < lives ? styles.full : styles.empty
               }`}
-              onClick={() => toggleTile(word)}
             >
-              {word}
-            </div>
+              ♥
+            </span>
           ))}
         </div>
       </div>
 
-      <div className={styles.buttonRow}>
-        <button
-          className={`${styles.actionButton} ${styles.shuffle}`}
-          onClick={shuffleGrid}
-          disabled={hasWon || hasLost}
-        >
-          Shuffle
-        </button>
+      <div className={styles.gameContainer}>
+        <div className={styles.board}>
+          <div className={styles.solvedContainer}>
+            {solvedGroups.map((group) => (
+              <div key={group.name} className={styles.solvedRow}>
+                <span className={styles.category}>{group.name}</span>
+                <span className={styles.words}>{group.words.join(" • ")}</span>
+              </div>
+            ))}
+          </div>
 
-        <button
-          className={`${styles.actionButton} ${styles.submit}`}
-          onClick={handleGuess}
-          disabled={selected.length !== 4 || hasWon || hasLost}
-        >
-          Submit
-        </button>
+          <div className={styles.grid}>
+            {words.map((word) => (
+              <div
+                key={word}
+                className={`${styles.tile} ${
+                  selected.includes(word) ? styles.selected : ""
+                }`}
+                onClick={() => toggleTile(word)}
+              >
+                {word}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.buttonRow}>
+          <button
+            className={`${styles.actionButton} ${styles.shuffle}`}
+            onClick={shuffleGrid}
+            disabled={hasWon || hasLost}
+          >
+            Shuffle
+          </button>
+
+          <button
+            className={`${styles.actionButton} ${styles.submit}`}
+            onClick={handleGuess}
+            disabled={selected.length !== 4 || hasWon || hasLost}
+          >
+            Submit
+          </button>
+        </div>
       </div>
 
       {/* Result Modal */}
