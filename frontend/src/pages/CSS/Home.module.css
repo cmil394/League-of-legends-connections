@@ -29,7 +29,7 @@
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .brand {
@@ -51,18 +51,7 @@
 .timer {
   font-size: 0.9rem;
   color: #cbd5f5;
-  margin-bottom: 24px;
-}
-
-.statusCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 28px;
-  margin-bottom: 26px;
-  background: linear-gradient(135deg, #1f2937, #020617);
-  border-radius: 16px;
+  margin-bottom: 0px;
 }
 
 .gameContainer {
@@ -137,7 +126,7 @@
 }
 
 .buttonRow {
-  margin-top: 28px;
+  margin-top: 12px;
   display: flex;
   gap: 16px;
   justify-content: center;
@@ -199,7 +188,15 @@
 }
 
 .lives {
-  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.livesLabel {
+  margin-right: 8px;
+  font-weight: 600;
 }
 
 .heart {

@@ -198,23 +198,7 @@ const Home = () => {
       <div className={styles.titleCard}>
         <h1 className={styles.brand}>League of Legends</h1>
         <h2 className={styles.title}>Connections</h2>
-      </div>
-
-      <div className={styles.statusCard}>
         <div className={styles.timer}>Next game: {timeLeft}</div>
-
-        <div className={styles.lives}>
-          {Array.from({ length: MAX_LIVES }).map((_, i) => (
-            <span
-              key={i}
-              className={`${styles.heart} ${
-                i < lives ? styles.full : styles.empty
-              }`}
-            >
-              ♥
-            </span>
-          ))}
-        </div>
       </div>
 
       <div className={styles.gameContainer}>
@@ -242,7 +226,19 @@ const Home = () => {
             ))}
           </div>
         </div>
-
+        <div className={styles.lives}>
+          <span className={styles.livesLabel}>Lives:</span>
+          {Array.from({ length: MAX_LIVES }).map((_, i) => (
+            <span
+              key={i}
+              className={`${styles.heart} ${
+                i < lives ? styles.full : styles.empty
+              }`}
+            >
+              ♥
+            </span>
+          ))}
+        </div>
         <div className={styles.buttonRow}>
           <button
             className={`${styles.actionButton} ${styles.shuffle}`}
