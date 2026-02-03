@@ -24,7 +24,7 @@ const MAX_LIVES = 3;
 const Home = () => {
   const todayStr = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
   const puzzle: Puzzle | undefined =
-    connections.find((p) => p.date === todayStr) || connections[0]; // fallback to first puzzle
+    connections.find((p) => p.date === todayStr) || connections[0]; // fallback
 
   const STORAGE_SOLVED = `connections-${puzzle.date}-solved`;
   const STORAGE_WON = `connections-${puzzle.date}-won`;
@@ -204,8 +204,11 @@ const Home = () => {
       <div className={styles.gameContainer}>
         <div className={styles.board}>
           <div className={styles.solvedContainer}>
-            {solvedGroups.map((group) => (
-              <div key={group.name} className={styles.solvedRow}>
+            {solvedGroups.map((group, index) => (
+              <div
+                key={group.name}
+                className={`${styles.solvedRow} ${styles[`category${index}`]}`}
+              >
                 <span className={styles.category}>{group.name}</span>
                 <span className={styles.words}>{group.words.join(" • ")}</span>
               </div>

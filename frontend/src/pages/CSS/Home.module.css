@@ -3,6 +3,8 @@
   src: url("../../assets/League.otf") format("truetype");
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
 html,
 body {
   height: 100%;
@@ -23,8 +25,8 @@ body {
   align-items: center;
   padding-top: 126px;
   color: white;
-  font-family: system-ui, sans-serif;
-  /* font-family: "MyFont", sans-serif; */
+  /* font-family: system-ui, sans-serif; */
+  font-family: "Quicksand", sans-serif;
 }
 
 .titleCard {
@@ -58,7 +60,7 @@ body {
 }
 
 .timer {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #cbd5f5;
   margin-bottom: 0px;
 }
@@ -86,7 +88,7 @@ body {
 
 .solvedRow {
   height: var(--row-height);
-  background: #1e293b;
+  /* background: #1e293b; */
   border-radius: 10px;
   padding: 0 16px;
 
@@ -98,6 +100,23 @@ body {
 .category {
   font-weight: 700;
   text-transform: uppercase;
+}
+
+/* category colors */
+.category0 {
+  background: #8f325f;
+}
+
+.category1 {
+  background: #43835d;
+}
+
+.category2 {
+  background: #9b8f3f;
+}
+
+.category3 {
+  background: #a03d3d;
 }
 
 .words {
@@ -113,7 +132,7 @@ body {
 }
 
 .tile {
-  background: linear-gradient(145deg, #0f172a, #020617);
+  background: #265aaf;
   border: 1px solid #334155;
   border-radius: 10px;
   display: flex;
@@ -129,7 +148,7 @@ body {
 }
 
 .selected {
-  background: #2563eb;
+  background: #4aa4f8;
   border-color: #3b82f6;
   color: white;
 }
@@ -200,7 +219,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 22px;
 }
 
 .livesLabel {
