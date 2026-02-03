@@ -263,14 +263,26 @@ const Home = () => {
 
       {/* Result Modal */}
       {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2>{hasWon ? "You Won! 🎉" : "You Lost 💀"}</h2>
-            <p>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className={`${styles.modal} ${hasWon ? styles.win : styles.lose}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalIcon}>{hasWon ? "🏆" : "💀"}</div>
+
+            <h2 className={styles.modalTitle}>
+              {hasWon ? "Victory!" : "Defeat"}
+            </h2>
+
+            <p className={styles.modalText}>
               {hasWon
                 ? "You solved all four connections."
                 : "You ran out of lives."}
             </p>
+
             <div className={styles.modalButtons}>
               <button
                 className={styles.modalButton}

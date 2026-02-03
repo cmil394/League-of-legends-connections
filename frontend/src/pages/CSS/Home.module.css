@@ -187,32 +187,95 @@ body {
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 50;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .modal {
-  background: white;
-  color: black;
-  padding: 2rem;
-  border-radius: 12px;
+  width: 360px;
+  padding: 32px;
+  border-radius: 18px;
   text-align: center;
+  background: linear-gradient(145deg, #0f172a, #020617);
+  color: white;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9);
+  animation: popIn 0.25s ease-out forwards;
+}
+
+.win {
+  border: 2px solid #22c55e;
+}
+
+.lose {
+  border: 2px solid #ef4444;
+}
+
+.modalIcon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.modalTitle {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 800;
+}
+
+.modalText {
+  margin-top: 8px;
+  color: #cbd5f5;
 }
 
 .modalButtons {
+  margin-top: 24px;
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+}
+
+.modalButton {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #334155;
+  color: white;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.modalButton:hover {
+  background: #475569;
+  transform: translateY(-1px);
 }
 
 .retry {
-  background-color: #334155;
+  background: #2563eb;
 }
 
 .retry:hover {
-  background-color: #475569;
+  background: #1d4ed8;
+}
+
+@keyframes popIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
 }
 
 .lives {
