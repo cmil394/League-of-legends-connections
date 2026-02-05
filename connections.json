@@ -1,28 +1,196 @@
 [
   {
-    "date": "2026-01-29",
+    "date": "2026-02-05",
     "words": [
-      "Gwen","Irelia","Jax","Riven","Malzahar","Kaisa","Chogath","Belveth",
-      "Ekko","Vi","Diana","Vayne","Annie","Syndra","Ahri","Oriana"
+      "Gwen",
+      "Irelia",
+      "Jax",
+      "Riven",
+      "Malzahar",
+      "Kaisa",
+      "Chogath",
+      "Belveth",
+      "Ekko",
+      "Vi",
+      "Diana",
+      "Vayne",
+      "Annie",
+      "Syndra",
+      "Ahri",
+      "Oriana"
     ],
     "groups": [
-      { "name": "Top Laners", "words": ["Gwen","Irelia","Jax","Riven"] },
-      { "name": "Void Champions", "words": ["Malzahar","Kaisa","Chogath","Belveth"] },
-      { "name": "3 Hit Passives", "words": ["Ekko","Vi","Diana","Vayne"] },
-      { "name": "Mid Laners", "words": ["Annie","Syndra","Ahri","Oriana"] }
+      { "name": "Top Laners", "words": ["Gwen", "Irelia", "Jax", "Riven"] },
+      {
+        "name": "Void Champions",
+        "words": ["Malzahar", "Kaisa", "Chogath", "Belveth"]
+      },
+      { "name": "3 Hit Passives", "words": ["Ekko", "Vi", "Diana", "Vayne"] },
+      { "name": "Mid Laners", "words": ["Annie", "Syndra", "Ahri", "Oriana"] }
     ]
   },
   {
-    "date": "2026-01-30",
+    "date": "2026-02-06",
     "words": [
-      "Champ 1","Champ 2","Champ 3","Champ 4","Champ 5","Champ 6","Champ 7","Champ 8",
-      "Champ 9","Champ 10","Champ 11","Champ 12","Champ 13","Champ 14","Champ 15","Champ 16"
+      "Naafiri",
+      "Kayn",
+      "Zaahen",
+      "Varus",
+      "Jayce",
+      "Elise",
+      "Nidalee",
+      "Uydr",
+      "Diana",
+      "Aphelios",
+      "Leona",
+      "Soraka",
+      "Fiora",
+      "Sett",
+      "Master Yi",
+      "Gwen"
     ],
     "groups": [
-      { "name": "Group A", "words": ["Champ 1","Champ 2","Champ 3","Champ 4"] },
-      { "name": "Group B", "words": ["Champ 5","Champ 6","Champ 7","Champ 8"] },
-      { "name": "Group C", "words": ["Champ 9","Champ 10","Champ 11","Champ 12"] },
-      { "name": "Group D", "words": ["Champ 13","Champ 14","Champ 15","Champ 16"] }
+      {
+        "name": "Darkin Champions",
+        "words": ["Naafiri", "Kayn", "Zaahen", "Varus"]
+      },
+      {
+        "name": "Shapeshifters",
+        "words": ["Jayce", "Elise", "Nidalee", "Uydr"]
+      },
+      {
+        "name": "Targon Champions",
+        "words": ["Diana", "Aphelios", "Leona", "Soraka"]
+      },
+      {
+        "name": "Champions with an Auto Attack Reset",
+        "words": ["Fiora", "Sett", "Master Yi", "Gwen"]
+      }
+    ]
+  },
+  {
+    "date": "2026-02-07",
+    "words": [
+      "Sion",
+      "Veigar",
+      "Chogath",
+      "Swain",
+      "Tahm Kench",
+      "Evelynn",
+      "Fiddlesticks",
+      "Nocturne",
+      "Ahri",
+      "Neeko",
+      "Wukong",
+      "Aurora",
+      "Shen",
+      "Karthus",
+      "Gangplank",
+      "Ashe",
+      "Soraka",
+      "Lulu",
+      "Milio",
+      "Karma"
+    ],
+    "groups": [
+      {
+        "name": "Infinite Scaling Champions",
+        "words": ["Sion", "Veigar", "Chogath", "Swain"]
+      },
+      {
+        "name": "Demon Champions",
+        "words": ["Tahm Kench", "Evelynn", "Fiddlesticks", "Nocturne"]
+      },
+      {
+        "name": "Vastaya Champions",
+        "words": ["Ahri", "Neeko", "Wukong", "Aurora"]
+      },
+      {
+        "name": "Champions with a Global Ultimate",
+        "words": ["Shen", "Karthus", "Gangplank", "Ashe"]
+      }
+    ]
+  },
+  {
+    "date": "2026-02-08",
+    "words": [
+      "Soraka",
+      "Lulu",
+      "Milio",
+      "Karma",
+      "Akshan",
+      "Lucian",
+      "Senna",
+      "Vayne",
+      "Fizz",
+      "Talon",
+      "Qiyana",
+      "Zed",
+      "Jinx",
+      "Ekko",
+      "Singed",
+      "Viktor"
+    ],
+    "groups": [
+      {
+        "name": "Enchanter Supports",
+        "words": ["Soraka", "Lulu", "Milio", "Karma"]
+      },
+      {
+        "name": "Champions with a Global Ultimate",
+        "words": ["Shen", "Karthus", "Gangplank", "Ashe"]
+      },
+      {
+        "name": "Sentinels of Light Champions",
+        "words": ["Akshan", "Lucian", "Senna", "Vayne"]
+      },
+      {
+        "name": "Mid Lane Assassins",
+        "words": ["Fizz", "Talon", "Qiyana", "Zed"]
+      },
+      {
+        "name": "Champions featured in Arcane",
+        "words": ["Jinx", "Ekko", "Mel", "Viktor"]
+      }
+    ]
+  },
+  {
+    "date": "2026-02-09",
+    "words": [
+      "Rumble",
+      "Kled",
+      "Poppy",
+      "Corki",
+      "Kassadin",
+      "Fiora",
+      "Nasus",
+      "Vi",
+      "Blitzcrank",
+      "Oriana",
+      "Galio",
+      "Malphite",
+      "Fiddlesticks",
+      "Graves",
+      "Kindred",
+      "Karthus"
+    ],
+    "groups": [
+      {
+        "name": "Yordles",
+        "words": ["Rumble", "Kled", "Poppy", "Corki"]
+      },
+      {
+        "name": "Champions with an empowered auto attack",
+        "words": ["Kassadin", "Fiora", "Nasus", "Vi"]
+      },
+      {
+        "name": "Golem Champions",
+        "words": ["Galio", "Blitzcrank", "Oriana", "Malphite"]
+      },
+      {
+        "name": "Ranged Junglers",
+        "words": ["Fiddlesticks", "Graves", "Kindred", "Karthus"]
+      }
     ]
   }
 ]
