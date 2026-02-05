@@ -35,6 +35,9 @@ const Home = () => {
   const [hasWon, setHasWon] = useState(false);
   const [hasLost, setHasLost] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [animatingGroup, setAnimatingGroup] = useState<string | null>(null);
+  const [fadingTiles, setFadingTiles] = useState<string[]>([]);
+  const [showError, setShowError] = useState(false);
 
   /* Reset puzzle */
   const resetPuzzle = () => {
@@ -50,6 +53,9 @@ const Home = () => {
     setHasWon(false);
     setHasLost(false);
     setShowModal(false);
+    setAnimatingGroup(null);
+    setFadingTiles([]);
+    setShowError(false);
   };
 
   const shuffleArray = (arr: string[]) => {
@@ -146,28 +152,51 @@ const Home = () => {
       setWrongAttempts(newWrongs);
       localStorage.setItem(STORAGE_WRONGS, String(newWrongs));
       setSelected([]);
+
+      // Trigger error animation
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 500);
+
       return;
     }
 
-    const newSolved = [...solvedGroups, correctGroup];
-    setSolvedGroups(newSolved);
+    // Start tile fade animation
+    setFadingTiles(selected);
 
-    localStorage.setItem(
-      STORAGE_SOLVED,
-      JSON.stringify(newSolved.map((g) => g.name)),
-    );
+    // Wait for tiles to fade, then add the solved group
+    setTimeout(() => {
+      const newSolved = [...solvedGroups, correctGroup];
+      setSolvedGroups(newSolved);
 
-    setWords((prev) =>
-      prev.filter((word) => !correctGroup.words.includes(word)),
-    );
+      // Trigger the row animation
+      setAnimatingGroup(correctGroup.name);
 
-    if (newSolved.length === puzzle.groups.length) {
-      setHasWon(true);
-      setShowModal(true);
-      localStorage.setItem(STORAGE_WON, "true");
-    }
+      localStorage.setItem(
+        STORAGE_SOLVED,
+        JSON.stringify(newSolved.map((g) => g.name)),
+      );
 
-    setSelected([]);
+      setWords((prev) =>
+        prev.filter((word) => !correctGroup.words.includes(word)),
+      );
+
+      setFadingTiles([]);
+
+      if (newSolved.length === puzzle.groups.length) {
+        setHasWon(true);
+        setTimeout(() => setShowModal(true), 600);
+        localStorage.setItem(STORAGE_WON, "true");
+      }
+
+      setSelected([]);
+
+      // Clear animation class after animation completes
+      setTimeout(() => {
+        setAnimatingGroup(null);
+      }, 600);
+    }, 400);
   };
 
   /* Shuffle grid */
@@ -205,13 +234,17 @@ const Home = () => {
         <div className={styles.timer}>Next game: {timeLeft}</div>
       </div>
 
-      <div className={styles.gameContainer}>
+      <div
+        className={`${styles.gameContainer} ${showError ? styles.error : ""}`}
+      >
         <div className={styles.board}>
           <div className={styles.solvedContainer}>
             {solvedGroups.map((group, index) => (
               <div
                 key={group.name}
-                className={`${styles.solvedRow} ${styles[`category${index}`]}`}
+                className={`${styles.solvedRow} ${styles[`category${index}`]} ${
+                  animatingGroup === group.name ? styles.animating : ""
+                }`}
               >
                 <span className={styles.category}>{group.name}</span>
                 <span className={styles.words}>{group.words.join(" • ")}</span>
@@ -225,7 +258,7 @@ const Home = () => {
                 key={word}
                 className={`${styles.tile} ${
                   selected.includes(word) ? styles.selected : ""
-                }`}
+                } ${fadingTiles.includes(word) ? styles.fadeOut : ""}`}
                 onClick={() => toggleTile(word)}
               >
                 {word}
