@@ -179,6 +179,12 @@ body {
   color: white;
 }
 
+.surrender {
+  background: #475569;
+  color: white;
+  padding: 12px 22px;
+}
+
 .submit {
   background: #2563eb;
   color: white;

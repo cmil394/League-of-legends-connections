@@ -15,26 +15,22 @@ type Puzzle = {
   groups: Group[];
 };
 
-/* Constants */
-
-const MAX_LIVES = 3;
-
 /* Component */
 
 const Home = () => {
   const todayStr = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
-  const puzzle: Puzzle | undefined =
-    connections.find((p) => p.date === todayStr) || connections[0]; // fallback
+  const puzzle: Puzzle =
+    connections.find((p) => p.date === todayStr) || connections[0];
 
   const STORAGE_SOLVED = `connections-${puzzle.date}-solved`;
   const STORAGE_WON = `connections-${puzzle.date}-won`;
-  const STORAGE_LIVES = `connections-${puzzle.date}-lives`;
   const STORAGE_LOST = `connections-${puzzle.date}-lost`;
+  const STORAGE_WRONGS = `connections-${puzzle.date}-wrongs`;
 
   const [words, setWords] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [solvedGroups, setSolvedGroups] = useState<Group[]>([]);
-  const [lives, setLives] = useState<number>(MAX_LIVES);
+  const [wrongAttempts, setWrongAttempts] = useState(0);
   const [timeLeft, setTimeLeft] = useState("");
   const [hasWon, setHasWon] = useState(false);
   const [hasLost, setHasLost] = useState(false);
@@ -42,17 +38,15 @@ const Home = () => {
 
   /* Reset puzzle */
   const resetPuzzle = () => {
-    // clear storage for today
     localStorage.removeItem(STORAGE_SOLVED);
     localStorage.removeItem(STORAGE_WON);
     localStorage.removeItem(STORAGE_LOST);
-    localStorage.removeItem(STORAGE_LIVES);
+    localStorage.removeItem(STORAGE_WRONGS);
 
-    // reset state
     setSolvedGroups([]);
     setWords([...puzzle.words]);
     setSelected([]);
-    setLives(MAX_LIVES);
+    setWrongAttempts(0);
     setHasWon(false);
     setHasLost(false);
     setShowModal(false);
@@ -76,8 +70,8 @@ const Home = () => {
 
     setWords(remainingWords);
 
-    const savedLives = localStorage.getItem(STORAGE_LIVES);
-    setLives(savedLives ? Number(savedLives) : MAX_LIVES);
+    const savedWrongs = localStorage.getItem(STORAGE_WRONGS);
+    setWrongAttempts(savedWrongs ? Number(savedWrongs) : 0);
 
     if (localStorage.getItem(STORAGE_WON) === "true") {
       setHasWon(true);
@@ -139,21 +133,10 @@ const Home = () => {
     );
 
     if (!correctGroup) {
-      const newLives = lives - 1;
-      setLives(newLives);
-      localStorage.setItem(STORAGE_LIVES, String(newLives));
+      const newWrongs = wrongAttempts + 1;
+      setWrongAttempts(newWrongs);
+      localStorage.setItem(STORAGE_WRONGS, String(newWrongs));
       setSelected([]);
-
-      if (newLives === 0) {
-        setHasLost(true);
-        setShowModal(true);
-        localStorage.setItem(STORAGE_LOST, "true");
-
-        // reveal all
-        setSolvedGroups(puzzle.groups);
-        setWords([]);
-      }
-
       return;
     }
 
@@ -190,6 +173,18 @@ const Home = () => {
 
     setWords(shuffled);
     setSelected([]);
+  };
+
+  /* Surrender */
+  const surrender = () => {
+    if (hasWon || hasLost) return;
+
+    setHasLost(true);
+    setShowModal(true);
+    localStorage.setItem(STORAGE_LOST, "true");
+
+    setSolvedGroups(puzzle.groups);
+    setWords([]);
   };
 
   /* Render */
@@ -229,19 +224,12 @@ const Home = () => {
             ))}
           </div>
         </div>
+
         <div className={styles.lives}>
-          <span className={styles.livesLabel}>Lives:</span>
-          {Array.from({ length: MAX_LIVES }).map((_, i) => (
-            <span
-              key={i}
-              className={`${styles.heart} ${
-                i < lives ? styles.full : styles.empty
-              }`}
-            >
-              ♥
-            </span>
-          ))}
+          <span className={styles.livesLabel}>Incorrect:</span>
+          <span className={styles.attempts}>{wrongAttempts}</span>
         </div>
+
         <div className={styles.buttonRow}>
           <button
             className={`${styles.actionButton} ${styles.shuffle}`}
@@ -257,6 +245,14 @@ const Home = () => {
             disabled={selected.length !== 4 || hasWon || hasLost}
           >
             Submit
+          </button>
+
+          <button
+            className={`${styles.actionButton} ${styles.surrender}`}
+            onClick={surrender}
+            disabled={hasWon || hasLost}
+          >
+            Surrender
           </button>
         </div>
       </div>
@@ -278,9 +274,7 @@ const Home = () => {
             </h2>
 
             <p className={styles.modalText}>
-              {hasWon
-                ? "You solved all four connections."
-                : "You ran out of lives."}
+              {hasWon ? "You solved all four connections." : "You surrendered."}
             </p>
 
             <div className={styles.modalButtons}>
@@ -295,7 +289,7 @@ const Home = () => {
                 className={`${styles.modalButton} ${styles.retry}`}
                 onClick={resetPuzzle}
               >
-                Retry Today
+                Retry
               </button>
             </div>
           </div>
