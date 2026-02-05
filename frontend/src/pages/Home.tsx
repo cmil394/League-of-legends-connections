@@ -52,6 +52,15 @@ const Home = () => {
     setShowModal(false);
   };
 
+  const shuffleArray = (arr: string[]) => {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
   /* Load saved state */
   useEffect(() => {
     const savedSolved = JSON.parse(
@@ -68,7 +77,7 @@ const Home = () => {
       (word) => !solved.some((g) => g.words.includes(word)),
     );
 
-    setWords(remainingWords);
+    setWords(shuffleArray(remainingWords));
 
     const savedWrongs = localStorage.getItem(STORAGE_WRONGS);
     setWrongAttempts(savedWrongs ? Number(savedWrongs) : 0);
