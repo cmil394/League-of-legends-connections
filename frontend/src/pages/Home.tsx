@@ -288,6 +288,15 @@ const Home = () => {
           >
             Surrender
           </button>
+
+          {(hasWon || hasLost) && (
+            <button
+              className={`${styles.actionButton} ${styles.viewResult}`}
+              onClick={() => setShowModal(true)}
+            >
+              View Result
+            </button>
+          )}
         </div>
       </div>
 
