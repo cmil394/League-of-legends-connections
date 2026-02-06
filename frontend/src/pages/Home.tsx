@@ -15,6 +15,11 @@ type Puzzle = {
   groups: Group[];
 };
 
+type SubmissionGroup = {
+  category: string;
+  words: [string, string, string, string];
+};
+
 /* Component */
 
 const Home = () => {
@@ -35,9 +40,22 @@ const Home = () => {
   const [hasWon, setHasWon] = useState(false);
   const [hasLost, setHasLost] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showSubmissionForm, setShowSubmissionForm] = useState(false);
   const [animatingGroup, setAnimatingGroup] = useState<string | null>(null);
   const [fadingTiles, setFadingTiles] = useState<string[]>([]);
   const [showError, setShowError] = useState(false);
+
+  // Submission form state
+  const [submitterName, setSubmitterName] = useState("");
+  const [submissionGroups, setSubmissionGroups] = useState<SubmissionGroup[]>([
+    { category: "", words: ["", "", "", ""] },
+    { category: "", words: ["", "", "", ""] },
+    { category: "", words: ["", "", "", ""] },
+    { category: "", words: ["", "", "", ""] },
+  ]);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   /* Reset puzzle */
   const resetPuzzle = () => {
@@ -47,7 +65,7 @@ const Home = () => {
     localStorage.removeItem(STORAGE_WRONGS);
 
     setSolvedGroups([]);
-    setWords([...puzzle.words]);
+    setWords(shuffleArray(puzzle.words));
     setSelected([]);
     setWrongAttempts(0);
     setHasWon(false);
@@ -225,6 +243,86 @@ const Home = () => {
     setWords([]);
   };
 
+  /* Submission form handlers */
+  const openSubmissionForm = () => {
+    setShowModal(false);
+    setShowSubmissionForm(true);
+    setSubmitStatus("idle");
+  };
+
+  const updateGroupCategory = (index: number, value: string) => {
+    const updated = [...submissionGroups];
+    updated[index].category = value;
+    setSubmissionGroups(updated);
+  };
+
+  const updateGroupWord = (
+    groupIndex: number,
+    wordIndex: number,
+    value: string,
+  ) => {
+    const updated = [...submissionGroups];
+    updated[groupIndex].words[wordIndex] = value;
+    setSubmissionGroups(updated);
+  };
+
+  const handleSubmitPuzzle = async () => {
+    // Basic validation
+    if (!submitterName.trim()) {
+      alert("Please enter your username");
+      return;
+    }
+
+    for (let i = 0; i < submissionGroups.length; i++) {
+      const group = submissionGroups[i];
+      if (!group.category.trim()) {
+        alert(`Please enter a category for group ${i + 1}`);
+        return;
+      }
+      for (let j = 0; j < 4; j++) {
+        if (!group.words[j].trim()) {
+          alert(`Please fill in all words for group ${i + 1}`);
+          return;
+        }
+      }
+    }
+
+    setSubmitStatus("submitting");
+
+    try {
+      const response = await fetch("http://localhost:3001/api/submit-puzzle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          submitter: submitterName,
+          groups: submissionGroups,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setTimeout(() => {
+          setShowSubmissionForm(false);
+          // Reset form
+          setSubmitterName("");
+          setSubmissionGroups([
+            { category: "", words: ["", "", "", ""] },
+            { category: "", words: ["", "", "", ""] },
+            { category: "", words: ["", "", "", ""] },
+            { category: "", words: ["", "", "", ""] },
+          ]);
+        }, 2000);
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmitStatus("error");
+    }
+  };
+
   /* Render */
   return (
     <div className={styles.home}>
@@ -333,7 +431,114 @@ const Home = () => {
               >
                 Retry
               </button>
+
+              <button
+                className={`${styles.modalButton} ${styles.submitOwn}`}
+                onClick={openSubmissionForm}
+              >
+                Submit Your Own
+              </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Submission Form Modal */}
+      {showSubmissionForm && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowSubmissionForm(false)}
+        >
+          <div
+            className={`${styles.submissionModal}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className={styles.submissionTitle}>Submit Your Puzzle</h2>
+
+            {submitStatus === "success" ? (
+              <div className={styles.successMessage}>
+                <div className={styles.successIcon}>✓</div>
+                <p>Puzzle submitted successfully!</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Your Username</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={submitterName}
+                    onChange={(e) => setSubmitterName(e.target.value)}
+                    placeholder="Enter your username"
+                  />
+                </div>
+
+                {submissionGroups.map((group, groupIndex) => (
+                  <div key={groupIndex} className={styles.groupSection}>
+                    <h3 className={styles.groupTitle}>
+                      Group {groupIndex + 1}
+                    </h3>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Category</label>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        value={group.category}
+                        onChange={(e) =>
+                          updateGroupCategory(groupIndex, e.target.value)
+                        }
+                        placeholder="e.g., Champions with Dashes"
+                      />
+                    </div>
+
+                    <div className={styles.wordsGrid}>
+                      {group.words.map((word, wordIndex) => (
+                        <input
+                          key={wordIndex}
+                          type="text"
+                          className={styles.wordInput}
+                          value={word}
+                          onChange={(e) =>
+                            updateGroupWord(
+                              groupIndex,
+                              wordIndex,
+                              e.target.value,
+                            )
+                          }
+                          placeholder={`Word ${wordIndex + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                {submitStatus === "error" && (
+                  <p className={styles.errorMessage}>
+                    Failed to submit. Please try again.
+                  </p>
+                )}
+
+                <div className={styles.submissionButtons}>
+                  <button
+                    className={`${styles.modalButton}`}
+                    onClick={() => setShowSubmissionForm(false)}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    className={`${styles.modalButton} ${styles.submitBtn}`}
+                    onClick={handleSubmitPuzzle}
+                    disabled={submitStatus === "submitting"}
+                  >
+                    {submitStatus === "submitting"
+                      ? "Submitting..."
+                      : "Submit Puzzle"}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
