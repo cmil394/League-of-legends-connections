@@ -371,3 +371,123 @@ body {
 .empty {
   color: #475569;
 }
+
+@media (max-width: 768px) {
+  .home {
+    padding-top: 80px;
+  }
+
+  .titleCard {
+    padding: 20px 28px;
+  }
+
+  .brand {
+    font-size: 1.4rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .board {
+    width: 420px;
+    height: 320px;
+    --row-height: calc((320px - (3 * 10px)) / 4);
+  }
+
+  .tile {
+    font-size: 0.85rem;
+  }
+
+  .actionButton {
+    padding: 10px 22px;
+    font-size: 0.9rem;
+  }
+
+  .modal {
+    width: 320px;
+    padding: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  html,
+  body {
+    overflow: auto;
+  }
+
+  .home {
+    padding-top: 60px;
+  }
+
+  .titleCard {
+    width: 90%;
+    padding: 18px 20px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .timer {
+    font-size: 0.85rem;
+  }
+
+  .board {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    --row-height: 60px;
+  }
+
+  .grid {
+    gap: 8px;
+  }
+
+  .tile {
+    font-size: 0.75rem;
+    padding: 4px;
+  }
+
+  .solvedRow {
+    font-size: 0.75rem;
+    padding: 0 10px;
+  }
+
+  .buttonRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actionButton {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 24px;
+  }
+
+  .modalTitle {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  html,
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .gameContainer {
+    max-height: calc(100dvh - 200px);
+    overflow-y: auto;
+    padding-bottom: 24px;
+  }
+}
