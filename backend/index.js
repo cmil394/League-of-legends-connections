@@ -1,10 +1,9 @@
+require("dotenv").config();
+const db = require("./db");
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
-
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -24,23 +23,16 @@ app.post("/api/submit-puzzle", (req, res) => {
       return res.status(400).json({ error: "Invalid submission format" });
     }
 
-    const submission = {
-      submitter,
-      groups: groups.map((group) => ({
-        name: group.category,
-        words: group.words,
-      })),
-      submittedAt: new Date().toISOString(),
-    };
-    const submissions = JSON.parse(fs.readFileSync(submissionsPath, "utf8"));
-    submissions.push(submission);
+    const stmt = db.prepare(`
+      INSERT INTO submissions (submitter, groups)
+      VALUES (?, ?)
+    `);
 
-    fs.writeFileSync(submissionsPath, JSON.stringify(submissions, null, 2));
+    stmt.run(submitter, JSON.stringify(groups));
 
-    console.log(`New puzzle submitted by ${submitter}`);
     res.json({ success: true, message: "Puzzle submitted successfully" });
-  } catch (error) {
-    console.error("Error saving submission:", error);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to save submission" });
   }
 });
@@ -48,11 +40,14 @@ app.post("/api/submit-puzzle", (req, res) => {
 // Get all submissions
 app.get("/api/submissions", (req, res) => {
   try {
-    const submissions = JSON.parse(fs.readFileSync(submissionsPath, "utf8"));
+    const stmt = db.prepare(
+      "SELECT * FROM submissions ORDER BY submitted_at DESC",
+    );
+    const submissions = stmt.all();
     res.json(submissions);
-  } catch (error) {
-    console.error("Error reading submissions:", error);
-    res.status(500).json({ error: "Failed to read submissions" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch submissions" });
   }
 });
 
