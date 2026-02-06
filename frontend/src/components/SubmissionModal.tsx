@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "../pages/CSS/Submission.module.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
 type SubmissionGroup = {
   category: string;
   words: [string, string, string, string];
@@ -58,7 +60,7 @@ const SubmissionModal = ({ onClose }: Props) => {
     setStatus("submitting");
 
     try {
-      const res = await fetch("http://localhost:3001/api/submit-puzzle", {
+      const res = await fetch(`${API_URL}/api/submit-puzzle`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
