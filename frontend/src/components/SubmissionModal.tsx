@@ -23,28 +23,34 @@ const SubmissionModal = ({ onClose }: Props) => {
     "idle" | "submitting" | "success" | "error"
   >("idle");
 
+  const [message, setMessage] = useState<string | null>(null);
+
   const updateCategory = (index: number, value: string) => {
     const updated = [...submissionGroups];
     updated[index].category = value;
     setSubmissionGroups(updated);
+    setMessage(null);
   };
 
   const updateWord = (groupIndex: number, wordIndex: number, value: string) => {
     const updated = [...submissionGroups];
     updated[groupIndex].words[wordIndex] = value;
     setSubmissionGroups(updated);
+    setMessage(null);
   };
 
   const handleSubmit = async () => {
+    setMessage(null);
+
     if (!submitterName.trim()) {
-      alert("Please enter your username");
+      setMessage("Please enter your name or username.");
       return;
     }
 
     for (let i = 0; i < submissionGroups.length; i++) {
       const g = submissionGroups[i];
       if (!g.category.trim() || g.words.some((w) => !w.trim())) {
-        alert(`Please complete group ${i + 1}`);
+        setMessage(`Please complete all fields in Group ${i + 1}.`);
         return;
       }
     }
@@ -62,8 +68,13 @@ const SubmissionModal = ({ onClose }: Props) => {
       });
 
       setStatus(res.ok ? "success" : "error");
+
+      if (!res.ok) {
+        setMessage("Submission failed. Please try again.");
+      }
     } catch {
       setStatus("error");
+      setMessage("Something went wrong. Please try again.");
     }
   };
 
@@ -80,10 +91,13 @@ const SubmissionModal = ({ onClose }: Props) => {
         ) : (
           <>
             <div className={styles.formGroup}>
-              <label>Your Username</label>
+              <label>Your Name / Username</label>
               <input
                 value={submitterName}
-                onChange={(e) => setSubmitterName(e.target.value)}
+                onChange={(e) => {
+                  setSubmitterName(e.target.value);
+                  setMessage(null);
+                }}
                 placeholder="Enter your username"
               />
             </div>
@@ -102,7 +116,7 @@ const SubmissionModal = ({ onClose }: Props) => {
                   {group.words.map((word, wi) => (
                     <input
                       key={wi}
-                      placeholder={`Word ${wi + 1}`}
+                      placeholder={`Answer ${wi + 1}`}
                       value={word}
                       onChange={(e) => updateWord(gi, wi, e.target.value)}
                     />
@@ -111,9 +125,7 @@ const SubmissionModal = ({ onClose }: Props) => {
               </div>
             ))}
 
-            {status === "error" && (
-              <p className={styles.error}>Submission failed.</p>
-            )}
+            {message && <p className={styles.error}>{message}</p>}
 
             <div className={styles.buttons}>
               <button onClick={onClose}>Cancel</button>
