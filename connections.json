@@ -74,14 +74,14 @@
       "Sion",
       "Veigar",
       "Chogath",
-      "Swain",
+      "Nasus",
       "Tahm Kench",
       "Evelynn",
       "Fiddlesticks",
       "Nocturne",
       "Ahri",
       "Neeko",
-      "Wukong",
+      "Xayah",
       "Aurora",
       "Shen",
       "Karthus",
@@ -91,7 +91,7 @@
     "groups": [
       {
         "name": "Infinite Scaling Champions",
-        "words": ["Sion", "Veigar", "Chogath", "Swain"]
+        "words": ["Sion", "Veigar", "Chogath", "Nasus"]
       },
       {
         "name": "Demon Champions",
@@ -99,7 +99,7 @@
       },
       {
         "name": "Vastaya Champions",
-        "words": ["Ahri", "Neeko", "Wukong", "Aurora"]
+        "words": ["Ahri", "Neeko", "Xayah", "Aurora"]
       },
       {
         "name": "Champions with a Global Ultimate",
@@ -124,17 +124,13 @@
       "Zed",
       "Jinx",
       "Ekko",
-      "Singed",
+      "Mel",
       "Viktor"
     ],
     "groups": [
       {
         "name": "Enchanter Supports",
         "words": ["Soraka", "Lulu", "Milio", "Karma"]
-      },
-      {
-        "name": "Champions with a Global Ultimate",
-        "words": ["Shen", "Karthus", "Gangplank", "Ashe"]
       },
       {
         "name": "Sentinels of Light Champions",
