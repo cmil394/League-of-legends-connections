@@ -14,6 +14,7 @@ type Puzzle = {
   date: string;
   words: string[];
   groups: Group[];
+  creator?: string; // Optional creator field
 };
 
 /* Component */
@@ -229,6 +230,10 @@ const Home = () => {
       <div
         className={`${styles.gameContainer} ${showError ? styles.error : ""}`}
       >
+        <p className={styles.creator}>
+          Puzzle made by: {puzzle.creator || "Anonymous"}
+        </p>
+
         <div className={styles.board}>
           <div className={styles.solvedContainer}>
             {solvedGroups.map((group, index) => (

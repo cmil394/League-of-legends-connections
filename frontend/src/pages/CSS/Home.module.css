@@ -65,9 +65,17 @@ body {
   margin-bottom: 0px;
 }
 
+.creator {
+  text-align: center;
+  font-size: 0.95rem;
+  margin: 0 0 3px 0;
+  color: #a1a1a1;
+  font-weight: 400;
+}
+
 .gameContainer {
   background: linear-gradient(145deg, #020617, #0f172a);
-  padding: 28px 32px 32px;
+  padding: 22px 32px 32px;
   border-radius: 22px;
   border: 2px solid transparent;
   transition: border-color 0.3s ease;

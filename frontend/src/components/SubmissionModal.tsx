@@ -44,11 +44,6 @@ const SubmissionModal = ({ onClose }: Props) => {
   const handleSubmit = async () => {
     setMessage(null);
 
-    if (!submitterName.trim()) {
-      setMessage("Please enter your name or username.");
-      return;
-    }
-
     for (let i = 0; i < submissionGroups.length; i++) {
       const g = submissionGroups[i];
       if (!g.category.trim() || g.words.some((w) => !w.trim())) {
@@ -64,7 +59,7 @@ const SubmissionModal = ({ onClose }: Props) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          submitter: submitterName,
+          submitter: submitterName.trim() || "Anonymous",
           groups: submissionGroups,
         }),
       });
@@ -93,14 +88,14 @@ const SubmissionModal = ({ onClose }: Props) => {
         ) : (
           <>
             <div className={styles.formGroup}>
-              <label>Your Name / Username</label>
+              <label>Your Name / Username (Optional)</label>
               <input
                 value={submitterName}
                 onChange={(e) => {
                   setSubmitterName(e.target.value);
                   setMessage(null);
                 }}
-                placeholder="Enter your username"
+                placeholder="Anonymous"
               />
             </div>
 
