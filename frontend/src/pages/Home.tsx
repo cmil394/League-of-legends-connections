@@ -20,7 +20,7 @@ type Puzzle = {
 /* Component */
 
 const Home = () => {
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = new Date().toLocaleDateString("en-CA");
   const puzzle: Puzzle =
     connections.find((p) => p.date === todayStr) || connections[0];
 
