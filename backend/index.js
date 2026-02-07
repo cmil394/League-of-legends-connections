@@ -38,15 +38,55 @@ app.post("/api/submit-puzzle", (req, res) => {
   }
 });
 
-// Get all submissions
+// Get all submissions in connections.json format
 app.get("/api/submissions", (req, res) => {
-  db.all("SELECT * FROM submissions", [], (err, rows) => {
-    if (err) {
-      console.error("SQLite fetch error:", err);
-      return res.status(500).json({ error: "Failed to fetch submissions" });
-    }
-    res.json(rows);
-  });
+  db.all(
+    "SELECT * FROM submissions ORDER BY submittedAt DESC",
+    [],
+    (err, rows) => {
+      if (err) {
+        console.error("SQLite fetch error:", err);
+        return res.status(500).json({ error: "Failed to fetch submissions" });
+      }
+
+      // Transform database rows to match connections.json format
+      const formatted = rows.map((row) => ({
+        date: row.submittedAt.split("T")[0], // Extract date portion (YYYY-MM-DD)
+        creator: row.submitter,
+        words: [
+          ...JSON.parse(row.group1).words,
+          ...JSON.parse(row.group2).words,
+          ...JSON.parse(row.group3).words,
+          ...JSON.parse(row.group4).words,
+        ],
+        groups: [
+          {
+            name:
+              JSON.parse(row.group1).category || JSON.parse(row.group1).name,
+            words: JSON.parse(row.group1).words,
+          },
+          {
+            name:
+              JSON.parse(row.group2).category || JSON.parse(row.group2).name,
+            words: JSON.parse(row.group2).words,
+          },
+          {
+            name:
+              JSON.parse(row.group3).category || JSON.parse(row.group3).name,
+            words: JSON.parse(row.group3).words,
+          },
+          {
+            name:
+              JSON.parse(row.group4).category || JSON.parse(row.group4).name,
+            words: JSON.parse(row.group4).words,
+          },
+        ],
+        submittedAt: row.submittedAt, // Keep the full timestamp as well
+      }));
+
+      res.json(formatted);
+    },
+  );
 });
 
 app.listen(PORT, () => {
