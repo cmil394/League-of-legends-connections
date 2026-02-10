@@ -158,5 +158,85 @@
         "words": ["Fiora", "Sett", "Master Yi", "Gwen"]
       }
     ]
+  },
+  {
+    "date": "2026-02-11",
+    "creator": "",
+    "words": [
+      "Yorick",
+      "Anivia",
+      "Jarvan IV",
+      "Taliyah",
+      "Master Yi",
+      "Elise",
+      "Fizz",
+      "Vladimir",
+      "Ambessa",
+      "Shen",
+      "Kennen",
+      "Lee Sin",
+      "Azir",
+      "Nasus",
+      "Akshan",
+      "K'Sante"
+    ],
+    "groups": [
+      {
+        "name": "Champions that can create terrain",
+        "words": ["Yorick", "Anivia", "Jarvan IV", "Taliyah"]
+      },
+      {
+        "name": "Champions that can go untargetable",
+        "words": ["Master Yi", "Elise", "Fizz", "Vladimir"]
+      },
+      {
+        "name": "Energy Champions",
+        "words": ["Ambessa", "Kennen", "Lee Sin", "Shen"]
+      },
+      {
+        "name": "Shurima Champions",
+        "words": ["Nasus", "K'Sante", "Azir", "Akshan"]
+      }
+    ]
+  },
+    {
+    "date": "2026-02-12",
+    "creator": "",
+    "words": [
+      "Malzahar",
+      "Yorick",
+      "Elise",
+      "Naafiri",
+      "Briar",
+      "Draven",
+      "Mel",
+      "Cassiopeia",
+      "Quinn",
+      "Gnar",
+      "Teemo",
+      "Jayce",
+      "Xerath",
+      "Syndra",
+      "Janna",
+      "Zilean"
+    ],
+    "groups": [
+      {
+        "name": "Champions with summons",
+        "words": ["Yorick", "Malzahar", "Elise", "Naafiri"]
+      },
+      {
+        "name": "Noxian Champions",
+        "words": ["Mel", "Briar", "Draven", "Cassiopeia"]
+      },
+      {
+        "name": "Ranged Top Laners",
+        "words": ["Quinn", "Gnar", "Teemo", "Jayce"]
+      },
+      {
+        "name": "Champions that levitate",
+        "words": ["Xerath", "Syndra", "Janna", "Zilean"]
+      }
+    ]
   }
 ]
