@@ -67,6 +67,11 @@ const Home = () => {
     return shuffled;
   };
 
+  const getTileBackground = (word: string) => {
+    const championName = word.replace(/['\s]/g, "");
+    return `url(/champion/${championName}.png)`;
+  };
+
   /* Reset puzzle */
 
   const resetPuzzle = () => {
@@ -271,8 +276,13 @@ const Home = () => {
                   selected.includes(word) ? styles.selected : ""
                 } ${fadingTiles.includes(word) ? styles.fadeOut : ""}`}
                 onClick={() => toggleTile(word)}
+                style={{
+                  backgroundImage: getTileBackground(word),
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               >
-                {word}
+                <span className={styles.tileText}>{word}</span>
               </div>
             ))}
           </div>
