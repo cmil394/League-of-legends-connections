@@ -88,9 +88,9 @@
       "Poppy",
       "Corki",
       "Kassadin",
-      "Fiora",
-      "Nasus",
-      "Vi",
+      "Bel'Veth",
+      "Kogmaw",
+      "Khazix",
       "Blitzcrank",
       "Oriana",
       "Galio",
@@ -107,7 +107,7 @@
       },
       {
         "name": "Champions with an empowered auto attack",
-        "words": ["Kassadin", "Fiora", "Nasus", "Vi"]
+        "words": ["Kassadin", "Bel'Veth", "Kogmaw", "Khazix"]
       },
       {
         "name": "Golem Champions",
