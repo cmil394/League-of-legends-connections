@@ -106,7 +106,7 @@
         "words": ["Rumble", "Kled", "Poppy", "Corki"]
       },
       {
-        "name": "Champions with an empowered auto attack",
+        "name": "Void Champions",
         "words": ["Kassadin", "Bel'Veth", "Kogmaw", "Khazix"]
       },
       {
@@ -222,8 +222,8 @@
     ],
     "groups": [
       {
-        "name": "Champions with summons",
-        "words": ["Yorick", "Malzahar", "Elise", "Naafiri"]
+        "name": "Champions with a Summon",
+        "words": ["Annie", "Ivern", "Elise", "Naafiri"]
       },
       {
         "name": "Noxian Champions",
@@ -235,6 +235,46 @@
       },
       {
         "name": "Champions that levitate",
+        "words": ["Xerath", "Syndra", "Janna", "Zilean"]
+      }
+    ]
+  },
+      {
+    "date": "2026-02-13",
+    "creator": "",
+    "words": [
+      "Shaco",
+      "Neeko",
+      "Leblanc",
+      "Wukong",
+      "Zac",
+      "Dr Mundo",
+      "Vladimir",
+      "Briar",
+      "Ahri",
+      "Evelynn",
+      "Akali",
+      "Kai'Sa",
+      "Fizz",
+      "Miss Fortune",
+      "Twisted Fate",
+      "Gangplank"
+    ],
+    "groups": [
+      {
+        "name": "Clone Champions",
+        "words": ["Shaco", "Neeko", "Leblanc", "Wukong"]
+      },
+      {
+        "name": "Health Cost Champions",
+        "words": ["Vladimir", "Zac", "Dr Mundo", "Briar"]
+      },
+      {
+        "name": "KDA Skinline Champions",
+        "words": ["Ahri", "Evelynn", "Akali", "Kai'Sa"]
+      },
+      {
+        "name": "Bilgewater Champions",
         "words": ["Xerath", "Syndra", "Janna", "Zilean"]
       }
     ]
