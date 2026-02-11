@@ -1,76 +1,5 @@
 [
   {
-    "date": "2026-02-05",
-    "creator": "Ajialk",
-    "words": [
-      "Gwen",
-      "Irelia",
-      "Jax",
-      "Riven",
-      "Malzahar",
-      "Kaisa",
-      "Chogath",
-      "Belveth",
-      "Ekko",
-      "Vi",
-      "Diana",
-      "Vayne",
-      "Annie",
-      "Syndra",
-      "Ahri",
-      "Oriana"
-    ],
-    "groups": [
-      { "name": "Top Laners", "words": ["Gwen", "Irelia", "Jax", "Riven"] },
-      {
-        "name": "Void Champions",
-        "words": ["Malzahar", "Kaisa", "Chogath", "Belveth"]
-      },
-      { "name": "3 Hit Passives", "words": ["Ekko", "Vi", "Diana", "Vayne"] },
-      { "name": "Mid Laners", "words": ["Annie", "Syndra", "Ahri", "Oriana"] }
-    ]
-  },
-  {
-    "date": "2026-02-06",
-    "creator": "Ajialk",
-    "words": [
-      "Naafiri",
-      "Kayn",
-      "Zaahen",
-      "Varus",
-      "Jayce",
-      "Elise",
-      "Nidalee",
-      "Uydr",
-      "Diana",
-      "Aphelios",
-      "Leona",
-      "Soraka",
-      "Fiora",
-      "Sett",
-      "Master Yi",
-      "Gwen"
-    ],
-    "groups": [
-      {
-        "name": "Darkin Champions",
-        "words": ["Naafiri", "Kayn", "Zaahen", "Varus"]
-      },
-      {
-        "name": "Shapeshifters",
-        "words": ["Jayce", "Elise", "Nidalee", "Uydr"]
-      },
-      {
-        "name": "Targon Champions",
-        "words": ["Diana", "Aphelios", "Leona", "Soraka"]
-      },
-      {
-        "name": "Champions with an Auto Reset",
-        "words": ["Fiora", "Sett", "Master Yi", "Gwen"]
-      }
-    ]
-  },
-  {
     "date": "2026-02-07",
     "creator": "",
     "words": [
@@ -187,6 +116,46 @@
       {
         "name": "Ranged Junglers",
         "words": ["Fiddlesticks", "Graves", "Kindred", "Karthus"]
+      }
+    ]
+  },
+    {
+    "date": "2026-02-10",
+    "creator": "",
+    "words": [
+      "Naafiri",
+      "Kayn",
+      "Zaahen",
+      "Varus",
+      "Jayce",
+      "Elise",
+      "Nidalee",
+      "Uydr",
+      "Diana",
+      "Aphelios",
+      "Leona",
+      "Soraka",
+      "Fiora",
+      "Sett",
+      "Master Yi",
+      "Gwen"
+    ],
+    "groups": [
+      {
+        "name": "Darkin Champions",
+        "words": ["Naafiri", "Kayn", "Zaahen", "Varus"]
+      },
+      {
+        "name": "Shapeshifters",
+        "words": ["Jayce", "Elise", "Nidalee", "Uydr"]
+      },
+      {
+        "name": "Targon Champions",
+        "words": ["Diana", "Aphelios", "Leona", "Soraka"]
+      },
+      {
+        "name": "Champions with an Auto Reset",
+        "words": ["Fiora", "Sett", "Master Yi", "Gwen"]
       }
     ]
   }

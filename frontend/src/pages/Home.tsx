@@ -21,8 +21,22 @@ type Puzzle = {
 
 const Home = () => {
   const todayStr = new Date().toLocaleDateString("en-CA");
-  const puzzle: Puzzle =
-    connections.find((p) => p.date === todayStr) || connections[0];
+
+  const getPuzzle = (): Puzzle => {
+    const exactMatch = connections.find((p) => p.date === todayStr);
+    if (exactMatch) return exactMatch;
+
+    const startDate = new Date(connections[0].date);
+    const today = new Date(todayStr);
+    const daysDiff = Math.floor(
+      (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+    );
+    const puzzleIndex = daysDiff % connections.length;
+
+    return connections[puzzleIndex >= 0 ? puzzleIndex : 0];
+  };
+
+  const puzzle: Puzzle = getPuzzle();
 
   const STORAGE_SOLVED = `connections-${puzzle.date}-solved`;
   const STORAGE_WON = `connections-${puzzle.date}-won`;
