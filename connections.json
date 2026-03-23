@@ -89,10 +89,10 @@
       "Corki",
       "Kassadin",
       "Bel'Veth",
-      "Kogmaw",
+      "Kog'Maw",
       "Khazix",
       "Blitzcrank",
-      "Oriana",
+      "Orianna",
       "Galio",
       "Malphite",
       "Fiddlesticks",
@@ -107,11 +107,11 @@
       },
       {
         "name": "Void Champions",
-        "words": ["Kassadin", "Bel'Veth", "Kogmaw", "Khazix"]
+        "words": ["Kassadin", "Bel'Veth", "Kog'Maw", "Khazix"]
       },
       {
         "name": "Golem Champions",
-        "words": ["Galio", "Blitzcrank", "Oriana", "Malphite"]
+        "words": ["Galio", "Blitzcrank", "Orianna", "Malphite"]
       },
       {
         "name": "Ranged Junglers",
@@ -119,7 +119,7 @@
       }
     ]
   },
-    {
+  {
     "date": "2026-02-10",
     "creator": "",
     "words": [
@@ -199,7 +199,7 @@
       }
     ]
   },
-    {
+  {
     "date": "2026-02-12",
     "creator": "",
     "words": [
@@ -239,7 +239,7 @@
       }
     ]
   },
-      {
+  {
     "date": "2026-02-13",
     "creator": "",
     "words": [

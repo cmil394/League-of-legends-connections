@@ -68,7 +68,10 @@ const Home = () => {
   };
 
   const getTileBackground = (word: string) => {
-    const championName = word.replace(/['\s]/g, "");
+    const championName = word
+      .replace(/&(.)/g, (_, c) => c.toLowerCase()) // & then lowercase next char
+      .replace(/'(.)/g, (_, c) => c.toLowerCase()) // ' then lowercase next char
+      .replace(/[\s.]/g, ""); // Remove spaces and dots
     return `url(/champion/${championName}.png)`;
   };
 
